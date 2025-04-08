@@ -16,31 +16,53 @@ const Auth = () => {
   const { login, signup } = useAuth();
   const navigate = useNavigate();
 
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsLoading(true);
-
+  
     try {
       if (isLogin) {
-        await login(email, password);
-        toast.success('Logged in successfully!');
+        const res = await fetch(`https://connect-me-backend.vercel.app/api/userList/${email}/${password}`);
+        const data = await res.json();
+  
+        if (res.ok && data) {
+          localStorage.setItem('connectme-user', JSON.stringify(data));
+          toast.success('Logged in successfully!');
+          navigate('/dashboard');
+        } else {
+          toast.error(data.message || 'Invalid credentials');
+        }
       } else {
         if (!name.trim()) {
           toast.error('Please enter your name');
           setIsLoading(false);
           return;
         }
-        await signup(name, email, password);
-        toast.success('Account created successfully!');
+  
+        const res = await fetch('https://connect-me-backend.vercel.app/api/newuser', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ name, email, password }),
+        });
+  
+        const data = await res.json();
+  
+        if (res.ok) {
+          localStorage.setItem('connectme-user', JSON.stringify(data));
+          toast.success('Account created successfully!');
+          navigate('/dashboard');
+        } else {
+          toast.error(data.message || 'Registration failed');
+        }
       }
-      navigate('/dashboard');
     } catch (error) {
-      toast.error(error instanceof Error ? error.message : 'An error occurred');
+      toast.error(error instanceof Error ? error.message : 'Something went wrong');
     } finally {
       setIsLoading(false);
     }
   };
-
+  
   return (
     <div className="flex flex-col min-h-screen">
       <Navbar />

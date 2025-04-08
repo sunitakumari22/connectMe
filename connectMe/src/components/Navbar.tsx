@@ -1,17 +1,28 @@
-
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { useAuth } from "../context/AuthContext";
 import { Button } from "@/components/ui/button";
 import { LogOut, User } from "lucide-react";
 
 const Navbar: React.FC = () => {
-  const { isAuthenticated, user, logout } = useAuth();
   const navigate = useNavigate();
+  const [currentUser, setCurrentUser] = useState<any>(null);
+
+  // Read user from localStorage
+  useEffect(() => {
+    const storedUser = localStorage.getItem("connectme-user");
+    if (storedUser) {
+      try {
+        setCurrentUser(JSON.parse(storedUser));
+      } catch (err) {
+        console.error("Failed to parse user from localStorage:", err);
+      }
+    }
+  }, []);
 
   const handleLogout = () => {
-    logout();
-    navigate("/");
+    localStorage.removeItem("user");
+    setCurrentUser(null);
+    navigate("/auth");
   };
 
   return (
@@ -36,15 +47,15 @@ const Navbar: React.FC = () => {
         </Link>
 
         <div className="flex items-center space-x-4">
-          {isAuthenticated && user ? (
+          {currentUser ? (
             <>
               <div className="hidden md:flex items-center space-x-2">
                 <img
-                  src={user.avatar}
-                  alt={user.name}
-                  className="w-8 h-8 rounded-full"
+                  src={currentUser.avatar || "/avatar-placeholder.png"}
+                  alt={currentUser.name}
+                  className="w-8 h-8 rounded-full object-cover"
                 />
-                <span className="font-medium text-gray-700">{user.name}</span>
+                <span className="font-medium text-gray-700">{currentUser.name}</span>
               </div>
               <Button variant="ghost" size="icon" onClick={handleLogout}>
                 <LogOut className="h-5 w-5" />
