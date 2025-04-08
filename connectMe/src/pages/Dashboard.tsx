@@ -37,15 +37,9 @@ const Dashboard = () => {
   const filteredUsers = MOCK_USERS.filter(u => user && u.id !== user.id);
 
   const handleCreateRoom = () => {
-    if (!newRoomName.trim()) {
-      toast.error('Please enter a room name');
-      return;
-    }
-    
-    createRoom(newRoomName);
-    setNewRoomName('');
-    setIsCreateRoomOpen(false);
-    navigate('/room');
+    const roomName = `Room-${Math.floor(Math.random() * 10000)}`; // or any default name
+    createRoom(roomName);
+    navigate('/room1');
   };
 
   const handleJoinRoom = (roomId: string) => {
@@ -54,18 +48,18 @@ const Dashboard = () => {
   };
 
   const handleVideoCall = (userId: string) => {
-    // In a real app, this would initiate a call with the specific user
     const user = MOCK_USERS.find(u => u.id === userId);
     createRoom(`Call with ${user?.name || 'User'}`);
     navigate('/room');
   };
 
   const handleAudioCall = (userId: string) => {
-    // In a real app, this would initiate an audio-only call
     const user = MOCK_USERS.find(u => u.id === userId);
     createRoom(`Call with ${user?.name || 'User'}`);
     navigate('/room');
   };
+
+  
 
   return (
     <div className="flex flex-col min-h-screen bg-gray-50">
@@ -76,7 +70,7 @@ const Dashboard = () => {
           <section>
             <div className="flex items-center justify-between mb-4">
               <h2 className="text-2xl font-bold text-gray-800">Active Rooms</h2>
-              <Button onClick={() => setIsCreateRoomOpen(true)} className="flex items-center space-x-2">
+              <Button onClick={() => handleCreateRoom()} className="flex items-center space-x-2">
                 <Plus className="h-4 w-4" />
                 <span>Create Room</span>
               </Button>
@@ -128,7 +122,7 @@ const Dashboard = () => {
           </section>
         </div>
       </main>
-      
+{/*       
       <Dialog open={isCreateRoomOpen} onOpenChange={setIsCreateRoomOpen}>
         <DialogContent>
           <DialogHeader>
@@ -154,7 +148,7 @@ const Dashboard = () => {
             </Button>
           </DialogFooter>
         </DialogContent>
-      </Dialog>
+      </Dialog> */}
     </div>
   );
 };

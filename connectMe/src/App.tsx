@@ -10,7 +10,9 @@ import Index from "./pages/Index";
 import Auth from "./pages/Auth";
 import Dashboard from "./pages/Dashboard";
 import VideoRoom from "./pages/VideoRoom";
+import Videocall from "./pages/videocall";
 import NotFound from "./pages/NotFound";
+import RoomPage from "./pages/RoomPage";
 
 const queryClient = new QueryClient();
 
@@ -27,6 +29,8 @@ const App = () => (
               <Route path="/auth" element={<Auth />} />
               <Route path="/dashboard" element={<Dashboard />} />
               <Route path="/room" element={<VideoRoom />} />
+              <Route path="/call" element={<Videocall roomID={""} userID={""} userName={""} />} />
+              <Route path="/room1" element={<RoomPage />} />
               <Route path="*" element={<NotFound />} />
             </Routes>
           </BrowserRouter>
