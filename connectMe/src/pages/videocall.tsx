@@ -1,4 +1,5 @@
-import { useEffect } from 'react';
+
+import { useEffect, useRef } from 'react';
 
 interface ZegoRoomProps {
   roomID: string;
@@ -7,7 +8,12 @@ interface ZegoRoomProps {
 }
 
 const Videocall = ({ roomID, userID, userName }: ZegoRoomProps) => {
+  const hasJoinedRef = useRef(false);
+
   useEffect(() => {
+    if (hasJoinedRef.current) return; // Prevent repeat joins
+    hasJoinedRef.current = true;
+
     const appID = 1519482038;
     const serverSecret = "29e077ec94a89f5ba7b6d19ccdafd7f1";
 
@@ -61,3 +67,4 @@ const Videocall = ({ roomID, userID, userName }: ZegoRoomProps) => {
 };
 
 export default Videocall;
+
