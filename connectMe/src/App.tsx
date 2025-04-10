@@ -14,6 +14,7 @@ import Videocall from "./pages/videocall";
 import NotFound from "./pages/NotFound";
 import RoomPage from "./pages/RoomPage";
 import ExploreRooms from "./pages/ExploreRooms";
+import JoinedUsers from "./pages/joinedUsers";
 
 const queryClient = new QueryClient();
 
@@ -29,10 +30,11 @@ const App = () => (
               <Route path="/" element={<Index />} />
               <Route path="/auth" element={<Auth />} />
               <Route path="/dashboard" element={<Dashboard />} />
-              <Route path="/room" element={<VideoRoom />} />
+              <Route path="/room1" element={<VideoRoom />} />
               <Route path="/call" element={<Videocall roomID={""} userID={""} userName={""} />} />
-              <Route path="/room1" element={<RoomPage />} />
+              <Route path="/room" element={<RoomPage />} />
               <Route path="/exploreRooms" element={<ExploreRooms />} />
+              <Route path="/joinedUser" element={<JoinedUsers />} />
               <Route path="*" element={<NotFound />} />
             </Routes>
           </BrowserRouter>

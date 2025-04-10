@@ -23,17 +23,17 @@ const ExploreRooms = () => {
     setOpenDialog(true);
   };
 
+ 
+
   const handleProceed = () => {
     if (!interest.trim()) return;
-
-    // Store interest if needed: localStorage.setItem("interest", interest);
+    localStorage.setItem("interest", interest);
     if (actionType === "create") {
-      navigate("/create-room", { state: { interest } });
+      navigate("/room", { state: { interest } });
     } else {
       navigate("/available-rooms", { state: { interest } });
     }
 
-    // Reset
     setInterest("");
     setOpenDialog(false);
   };
