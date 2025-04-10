@@ -8,7 +8,8 @@ const RoomPage = () => {
   const [searchParams] = useSearchParams();
   const roomID = searchParams.get('roomID') || `${Math.floor(Math.random() * 10000)}`;
   const userID = `${Math.floor(Math.random() * 10000)}`;
-  const interest = searchParams.get('interest') || 'General';
+
+  const interest = localStorage.getItem("interest") || 'General';
 
   useEffect(() => {
     const joinedRoomInfo = {
@@ -19,7 +20,6 @@ const RoomPage = () => {
 
     localStorage.setItem("connectme-joined", JSON.stringify(joinedRoomInfo));
 
-    // Send to backend
     const sendJoinedUser = async () => {
       try {
         const response = await fetch("https://connect-me-backend.vercel.app/api/newJoinedUser", {
