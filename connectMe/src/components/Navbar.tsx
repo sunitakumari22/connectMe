@@ -20,7 +20,7 @@ const Navbar: React.FC = () => {
   }, []);
 
   const handleLogout = () => {
-    localStorage.removeItem("user");
+    localStorage.removeItem("connectme-user");
     setCurrentUser(null);
     navigate("/auth");
   };
@@ -50,11 +50,11 @@ const Navbar: React.FC = () => {
           {currentUser ? (
             <>
               <div className="hidden md:flex items-center space-x-2">
-                <img
+                {/* <img
                   src={currentUser.avatar || "/avatar-placeholder.png"}
                   alt={currentUser.name}
                   className="w-8 h-8 rounded-full object-cover"
-                />
+                /> */}
                 <span className="font-medium text-gray-700">{currentUser.name}</span>
               </div>
               <Button variant="ghost" size="icon" onClick={handleLogout}>
