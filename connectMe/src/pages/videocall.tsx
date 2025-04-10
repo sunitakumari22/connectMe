@@ -1,5 +1,5 @@
-// components/ZegoRoom.tsx
-import { useEffect } from 'react';
+
+import { useEffect, useRef } from 'react';
 
 interface ZegoRoomProps {
   roomID: string;
@@ -8,9 +8,15 @@ interface ZegoRoomProps {
 }
 
 const Videocall = ({ roomID, userID, userName }: ZegoRoomProps) => {
+  const hasJoinedRef = useRef(false);
+
   useEffect(() => {
+    if (hasJoinedRef.current) return; // Prevent repeat joins
+    hasJoinedRef.current = true;
+
     const appID = 1519482038;
     const serverSecret = "29e077ec94a89f5ba7b6d19ccdafd7f1";
+
     const kitToken = (window as any).ZegoUIKitPrebuilt.generateKitTokenForTest(
       appID,
       serverSecret,
@@ -20,6 +26,7 @@ const Videocall = ({ roomID, userID, userName }: ZegoRoomProps) => {
     );
 
     const zp = (window as any).ZegoUIKitPrebuilt.create(kitToken);
+
     zp.joinRoom({
       container: document.getElementById("zego-container"),
       sharedLinks: [
@@ -42,6 +49,17 @@ const Videocall = ({ roomID, userID, userName }: ZegoRoomProps) => {
       maxUsers: 50,
       layout: "Sidebar",
       showLayoutButton: true,
+
+      onLeaveRoom: async () => {
+        try {
+          await fetch(`https://connect-me-backend.vercel.app/api/deleteJoinedUserByRoom/${roomID}`, {
+            method: 'DELETE',
+          });
+          console.log("Deleted user from room on leave");
+        } catch (error) {
+          console.error("Failed to delete user on leave:", error);
+        }
+      },
     });
   }, [roomID, userID, userName]);
 
@@ -49,3 +67,4 @@ const Videocall = ({ roomID, userID, userName }: ZegoRoomProps) => {
 };
 
 export default Videocall;
+
