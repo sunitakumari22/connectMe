@@ -14,7 +14,7 @@ const Dashboard = () => {
     const roomName = `${type === 'video' ? 'Video' : 'Audio'}Call-${Math.floor(Math.random() * 10000)}`;
     createRoom(roomName);
     toast.success(`${type === 'video' ? 'Video' : 'Audio'} Call Started`);
-    navigate('/exploreRooms'); // You may want to make this dynamic
+    navigate('/exploreRooms'); 
   };
 
   return (

@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import Navbar from "@/components/Navbar";
 import { Card, CardContent } from "@/components/ui/card";
 import { Loader2 } from "lucide-react";
-import { useNavigate } from "react-router-dom"; // import useNavigate
+import { useNavigate } from "react-router-dom"; 
 
 interface User {
   _id: string;
@@ -14,7 +14,7 @@ interface User {
 const JoinedUsers = () => {
   const [joinedUsers, setJoinedUsers] = useState<User[]>([]);
   const [loading, setLoading] = useState(true);
-  const navigate = useNavigate(); // initialize navigation
+  const navigate = useNavigate(); 
 
   useEffect(() => {
     const fetchUsers = async () => {
