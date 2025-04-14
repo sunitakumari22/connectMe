@@ -124,33 +124,7 @@ const Dashboard = () => {
         </div>
       </main>
 
-      {/* <main className="flex-1 flex items-center justify-center px-4 py-12">
-        <div className="w-full max-w-xl bg-white shadow-xl rounded-2xl p-10 text-center space-y-6">
-          <h1 className="text-3xl font-bold text-gray-800">Welcome to ConnectMe</h1>
-          <p className="text-gray-500 text-sm sm:text-base">
-            Start a call by selecting one of the options below.
-          </p>
-
-          <div className="grid sm:grid-cols-2 gap-6 mt-6">
-            <Button
-              onClick={() => startCall('video')}
-              className="w-full h-14 text-lg flex items-center justify-center space-x-2"
-            >
-              <Video className="h-5 w-5" />
-              <span>Video Call</span>
-            </Button>
-
-            <Button
-              onClick={() => startCall('audio')}
-              variant="outline"
-              className="w-full h-14 text-lg flex items-center justify-center space-x-2"
-            >
-              <Phone className="h-5 w-5" />
-              <span>Audio Call</span>
-            </Button>
-          </div>
-        </div>
-      </main> */}
+     
 
 <footer className="bg-gray-50 py-6 border-t border-gray-200">
         <div className="max-w-7xl mx-auto px-4 text-center text-gray-500 text-sm">
