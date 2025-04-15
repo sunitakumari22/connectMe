@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
+import Select from "react-select";
 import {
   Dialog,
   DialogContent,
@@ -12,10 +12,21 @@ import {
 import { PlusCircle, Users } from "lucide-react";
 import Navbar from "@/components/Navbar";
 
+const interestOptions = [
+  { value: "Technology", label: "Technology" },
+  { value: "Music", label: "Music" },
+  { value: "Sports", label: "Sports" },
+  { value: "Gaming", label: "Gaming" },
+  { value: "Art", label: "Art" },
+  { value: "Education", label: "Education" },
+  { value: "Health", label: "Health" },
+  { value: "Travel", label: "Travel" },
+];
+
 const ExploreRooms = () => {
   const navigate = useNavigate();
   const [openDialog, setOpenDialog] = useState(false);
-  const [interest, setInterest] = useState("");
+  const [selectedInterest, setSelectedInterest] = useState(null);
   const [actionType, setActionType] = useState<"create" | "join" | null>(null);
 
   const handleOpenDialog = (type: "create" | "join") => {
@@ -23,18 +34,18 @@ const ExploreRooms = () => {
     setOpenDialog(true);
   };
 
-
-
   const handleProceed = () => {
-    if (!interest.trim()) return;
-    localStorage.setItem("interest", interest);
+    if (!selectedInterest) return;
+
+    localStorage.setItem("interest", selectedInterest.value);
+
     if (actionType === "create") {
-      navigate("/room", { state: { interest } });
+      navigate("/room", { state: { interest: selectedInterest.value } });
     } else {
-      navigate("/joinedUser", { state: { interest } });
+      navigate("/joinedUser", { state: { interest: selectedInterest.value } });
     }
 
-    setInterest("");
+    setSelectedInterest(null);
     setOpenDialog(false);
   };
 
@@ -86,17 +97,21 @@ const ExploreRooms = () => {
         <Dialog open={openDialog} onOpenChange={setOpenDialog}>
           <DialogContent className="sm:max-w-md">
             <DialogHeader>
-              <DialogTitle>Enter Your Interest</DialogTitle>
+              <DialogTitle>Select Your Interest</DialogTitle>
             </DialogHeader>
-            <Input
-              placeholder="e.g., Technology, Music, Sports"
-              value={interest}
-              onChange={(e) => setInterest(e.target.value)}
+
+            <Select
+              options={interestOptions}
+              value={selectedInterest}
+              onChange={(option) => setSelectedInterest(option)}
+              placeholder="Choose an interest"
+              className="mt-2"
             />
+
             <DialogFooter className="mt-4">
               <Button
                 onClick={handleProceed}
-                disabled={!interest.trim()}
+                disabled={!selectedInterest}
                 className="w-full"
               >
                 Continue
@@ -105,6 +120,7 @@ const ExploreRooms = () => {
           </DialogContent>
         </Dialog>
       </div>
+
       <footer className="bg-gray-50 py-6 border-t border-gray-200">
         <div className="max-w-7xl mx-auto px-4 text-center text-gray-500 text-sm">
           <p>&copy; {new Date().getFullYear()} ConnectMe. All rights reserved.</p>

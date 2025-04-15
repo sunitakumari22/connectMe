@@ -1,19 +1,22 @@
-
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { Video, Phone, ArrowRight } from 'lucide-react';
 import Navbar from '@/components/Navbar';
 import { useAuth } from '@/context/AuthContext';
+import { toast } from 'sonner';
 
 const Index = () => {
   const { isAuthenticated } = useAuth();
   const navigate = useNavigate();
 
   const handleAction = (type: 'video' | 'audio') => {
-    if (isAuthenticated) {
-      navigate('/dashboard');
+    const user = localStorage.getItem('connectme-user');
+
+    if (user) {
+      navigate('/exploreRooms');
     } else {
+      toast.warning('Please log in first to continue');
       navigate('/auth');
     }
   };
@@ -21,18 +24,18 @@ const Index = () => {
   return (
     <div className="flex flex-col min-h-screen">
       <Navbar />
-      
+
       <main className="flex-1 flex flex-col items-center justify-center px-4 py-12">
         <div className="max-w-4xl w-full text-center">
           <h1 className="text-4xl sm:text-5xl font-bold text-gray-900 mb-6 leading-tight">
             Connect with anyone, <span className="text-blue-500">anywhere</span>, in real-time
           </h1>
-          
+
           <p className="text-lg text-gray-600 mb-10 max-w-2xl mx-auto">
             High-quality video and audio calls made simple. No downloads required, 
             just connect and communicate instantly.
           </p>
-          
+
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4 sm:gap-6 mb-16">
             <Button
               onClick={() => handleAction('video')}
@@ -41,7 +44,7 @@ const Index = () => {
               <Video className="h-5 w-5" />
               <span>Start Video Call</span>
             </Button>
-            
+
             <Button
               onClick={() => handleAction('audio')}
               variant="outline"
@@ -51,7 +54,7 @@ const Index = () => {
               <span>Start Audio Call</span>
             </Button>
           </div>
-          
+
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-4xl mx-auto">
             <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-6 text-center">
               <div className="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-4">
@@ -73,7 +76,7 @@ const Index = () => {
                 No downloads needed. Join calls directly from your browser.
               </p>
             </div>
-            
+
             <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-6 text-center">
               <div className="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-4">
                 <svg
@@ -95,7 +98,7 @@ const Index = () => {
                 HD video and audio for a lifelike conversation experience.
               </p>
             </div>
-            
+
             <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-6 text-center">
               <div className="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-4">
                 <svg
@@ -117,7 +120,7 @@ const Index = () => {
               </p>
             </div>
           </div>
-          
+
           {!isAuthenticated && (
             <div className="mt-16">
               <Button
@@ -132,7 +135,7 @@ const Index = () => {
           )}
         </div>
       </main>
-      
+
       <footer className="bg-gray-50 py-6 border-t border-gray-200">
         <div className="max-w-7xl mx-auto px-4 text-center text-gray-500 text-sm">
           <p>&copy; {new Date().getFullYear()} ConnectMe. All rights reserved.</p>

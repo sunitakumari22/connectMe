@@ -51,7 +51,7 @@ const Auth = () => {
         if (res.ok) {
           localStorage.setItem('connectme-user', JSON.stringify(data));
           toast.success('Account created successfully!');
-          navigate('/dashboard');
+          navigate('/');
         } else {
           toast.error(data.message || 'Registration failed');
         }
