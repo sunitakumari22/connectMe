@@ -1,5 +1,5 @@
-
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef } from "react";
+import { ZegoUIKitPrebuilt, ZegoCloudRoomConfig } from "@zegocloud/zego-uikit-prebuilt";
 
 interface ZegoRoomProps {
   roomID: string;
@@ -11,13 +11,13 @@ const Videocall = ({ roomID, userID, userName }: ZegoRoomProps) => {
   const hasJoinedRef = useRef(false);
 
   useEffect(() => {
-    if (hasJoinedRef.current) return; // Prevent repeat joins
+    if (hasJoinedRef.current) return;
     hasJoinedRef.current = true;
 
     const appID = 1519482038;
     const serverSecret = "29e077ec94a89f5ba7b6d19ccdafd7f1";
 
-    const kitToken = (window as any).ZegoUIKitPrebuilt.generateKitTokenForTest(
+    const kitToken = ZegoUIKitPrebuilt.generateKitTokenForTest(
       appID,
       serverSecret,
       roomID,
@@ -25,18 +25,18 @@ const Videocall = ({ roomID, userID, userName }: ZegoRoomProps) => {
       userName
     );
 
-    const zp = (window as any).ZegoUIKitPrebuilt.create(kitToken);
+    const zp = ZegoUIKitPrebuilt.create(kitToken);
 
     zp.joinRoom({
-      container: document.getElementById("zego-container"),
+      container: document.getElementById("zego-container")!,
       sharedLinks: [
         {
-          name: 'Personal link',
+          name: "Personal link",
           url: `${window.location.protocol}//${window.location.host}/room?roomID=${roomID}`,
         },
       ],
       scenario: {
-        mode: (window as any).ZegoUIKitPrebuilt.VideoConference,
+        mode: ZegoUIKitPrebuilt.VideoConference,
       },
       turnOnMicrophoneWhenJoining: true,
       turnOnCameraWhenJoining: true,
@@ -49,11 +49,10 @@ const Videocall = ({ roomID, userID, userName }: ZegoRoomProps) => {
       maxUsers: 50,
       layout: "Sidebar",
       showLayoutButton: true,
-
       onLeaveRoom: async () => {
         try {
           await fetch(`https://connect-me-backend.vercel.app/api/deleteJoinedUserByRoom/${roomID}`, {
-            method: 'DELETE',
+            method: "DELETE",
           });
           console.log("Deleted user from room on leave");
         } catch (error) {
@@ -63,8 +62,7 @@ const Videocall = ({ roomID, userID, userName }: ZegoRoomProps) => {
     });
   }, [roomID, userID, userName]);
 
-  return <div id="zego-container" style={{ width: '100vw', height: '100vh' }} />;
+  return <div id="zego-container" style={{ width: "100vw", height: "100vh" }} />;
 };
 
 export default Videocall;
-
