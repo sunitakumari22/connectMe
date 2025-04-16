@@ -7,7 +7,6 @@ const Navbar: React.FC = () => {
   const navigate = useNavigate();
   const [currentUser, setCurrentUser] = useState<any>(null);
 
-  // Read user from localStorage
   useEffect(() => {
     const storedUser = localStorage.getItem("connectme-user");
     if (storedUser) {
