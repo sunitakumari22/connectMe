@@ -42,7 +42,7 @@ const Navbar: React.FC = () => {
               <path d="m15 10-4 4l6 6l4-16l-18 7l4 2l2 6l3-4" />
             </svg>
           </div>
-          <span className="text-xl font-bold text-gray-800">ConnectMe</span>
+          <span className="text-xl font-bold text-gray-800">JabWeMet</span>
         </Link>
 
         <div className="flex items-center space-x-4">
